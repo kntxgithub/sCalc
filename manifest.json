@@ -2,7 +2,7 @@
   "name": "強度計算機 sCalc",
   "short_name": "sCalc",
   "description": "コンクリート圧縮強度計算機",
-  "start_url": "./calc.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
