@@ -1,0 +1,104 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#000000">
+    <title>強度計算機　-　sCalc</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="_calc.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+    <div id=lcd class="lc">    <!--液晶部分-->
+        <div class="infoLCHeader">
+            <input id=t125 class="info tpsize" readonly value="φ12.5"/>
+            <input id=t100 class="info tpsize" readonly value="φ10"/>
+            <input id=t050 class="info tpsize" readonly value="φ5"/>
+            <input id=tS15 class="info tpsize" readonly value="□15"/>
+            <input id=tS10 class="info tpsize" readonly value="□10"/>
+            
+        </div>
+        <div class ='infoLC'>
+            <input id='info1000' class="info" readonly value="1000kN"/>
+            <input id='info0500' class="info" readonly value="500kN"/>
+            <input id='info0250' class="info" readonly value="250kN"/>
+            <input id='info0100' class="info" readonly value="100kN"/>
+            <input id=infoL class="info bgblack" readonly value="荷重"/>
+            <input id=infoS class="info bgblack" readonly value="強度"/>
+            <input id=infoA class="info bgblack" readonly value="平均"/>
+        </div>
+        <div class="calcLC">
+            <input id=load1 class="Num" readonly placeholder="荷重1" maxlength="5" onfocus="this.select();" oninput="calc();" onclick="fS('load1');"/> <!-- onblur="loadCheckChild(this);" -->
+            <input id=strg1 class="Num" readonly placeholder="強度1" maxlength="5" onfocus="this.select();" oninput="calc();" onclick="fS('strg1');"/>
+            <input id=conv1 class="Num" readonly value=""/><br />
+            <input id=load2 class="Num" readonly placeholder="荷重2" maxlength="5" onfocus="this.select();" oninput="calc();" onclick="fS('load2');"/>
+            <input id=strg2 class="Num" readonly placeholder="強度2" maxlength="5" onfocus="this.select();" oninput="calc();" onclick="fS('strg2');"/>
+            <input id=average class="Num" readonly maxlength="5" onfocus="this.select();" onclick="fS('average');" /><br />
+            <input id=load3 class="Num" readonly placeholder="荷重3" maxlength="5" onfocus="this.select();" oninput="calc();" onclick="fS('load3');"/>
+            <input id=strg3 class="Num" readonly placeholder="強度3" maxlength="5" onfocus="this.select();" oninput="calc();" onclick="fS('strg3');"/>
+            <input id=Ntmm2 class="Num" readonly value="N/㎟" /><br /> 
+        </div>
+    </div>
+    <div class="div expe"><!-- 説明 -->
+        <input class="expe" readonly="readonly" value="FUNC1" />
+        <input class="expe" readonly="readonly" value="FUNC2" />
+        <input class="expe" readonly="readonly" value="FUNC3" />
+        <input class="expe" readonly="readonly" value="FUNC4" />
+    </div>
+    <div class="div funcbtn" ontouchstart=""><!-- ボタン部分 -->
+        <button id='copybtn' class="func" style="float: right;" onclick="copyToClipboard(),sound('copybtn')">Copy</button>
+        <button id='copybtn2' class="func" style="float: right;" onclick="copyToEmail(),sound('copybtn2')">E-Mail</button>
+        <button id='copybtn3' class="func" style="float: right;" onclick="SoundOnOff(),sound('copybtn3')">Sound</button>
+        <button id='copybtn4' class="func" style="float: right;" onclick="sound('copybtn4')"></button>
+    </div>
+    <div class="div expe"><!-- 説明 -->
+        <input class="expe" readonly="readonly" value="供試体サイズ"/>
+        <input class="expe" readonly="readonly" value="計算方式" />
+        <input class="expe" readonly="readonly" value="荷重レンジ" />
+        <input class="expe" readonly="readonly" value="" />
+    </div>
+    <div class="div funcbtn" ontouchstart=""><!-- ボタン部分 -->
+        <button id='btnTpSize' class="func" onclick="tpsizeChange(),sound('btnTpSize')">TPsize</button>
+        <button id='btnCalcType' class="func" onclick="calcTypeChange(),sound('btnCalcType')">CalcType</button>
+        <button id='btnRange' class="func" onclick="loadRangeChange( 'range' ),sound('btnClr')">RANGE</button>
+        <button id='btnClr' class="func clr" onclick="update( '' ),sound('btnClr')">ＣＬＲ</button>
+    </div>
+    <div class="div numbtn" ontouchstart="">
+        <button id='b7' onclick="append( '7' ),sound('b7')">7</button>
+        <button id='b8' onclick="append( '8' ),sound('b8')">8</button>
+        <button id='b9' onclick="append( '9' ),sound('9')">9</button>  
+
+        <button id='bRnd' onclick="sRandom(),sound('bRnd')">Rnd</button><br />
+        <button id='b4' onclick="append( '4' ),sound('b4')">4</button>
+        <button id='b5' onclick="append( '5' ),sound('b5')">5</button>
+        <button id='b6' onclick="append( '6' ),sound('b6')">6</button>
+        <button id='bce' onclick="append( 'CE' ),sound('bce')">CE</button><br />
+        <button id='b1' onclick="append( '1' ),sound('b1')">1</button>
+        <button id='b2' onclick="append( '2' ),sound('b2')">2</button>
+        <button id='b3' onclick="append( '3' ),sound( 'b3')">3</button>
+        <button id='bbs' onclick="append( 'BS' ),sound('bbs')">⌫</button><br />
+        <button id='b0' onclick="append( '0' ),sound('b0')">0</button>
+        <button id='bdot' onclick="append( '.' ),sound('bdot')">.</button>
+        <button id='bnxt' onclick="focusMove( 'nxt' ),sound('bnxt')">▼</button>
+        <button id='bfwd' onclick="focusMove( 'fwd' ),sound('bfwd')">▲</button>
+        <br />
+        <p class="cr">
+    </div>
+    <audio id="soundfileKey1" preload="auto">
+        <source src="key01.mp3" type="audio/mp3">
+    </audio>
+    <audio id="soundfileClear1" preload="auto">
+        <source src="clear01.mp3" type="audio/mp3">
+    </audio>
+    <audio id="soundfileKey2" preload="auto">
+        <source src="key02.mp3" type="audio/mp3">
+    </audio>
+    <audio id="soundfileClear2" preload="auto">
+        <source src="clear02.mp3" type="audio/mp3">
+    </audio>
+
+    <script type="text/javascript" src="_calc.js" charset="utf-8"></script>
+</body>
+</html>
