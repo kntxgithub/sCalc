@@ -356,14 +356,10 @@ function fS( _v ){
 }
 
 function setBBW( _v ){
-    getById('load1').style.borderBottomWidth="1px"; 
-    getById('load2').style.borderBottomWidth="1px"; 
-    getById('load3').style.borderBottomWidth="1px"; 
-    getById('strg1').style.borderBottomWidth="1px"; 
-    getById('strg2').style.borderBottomWidth="1px"; 
-    getById('strg3').style.borderBottomWidth="1px"; 
-    getById('average').style.borderBottomWidth="1px"; 
-    getById( _v ).style.borderBottomWidth="2px"; 
+    ['load1','load2','load3','strg1','strg2','strg3','average'].forEach(function(id){
+        getById(id).style.borderBottomColor="#555555";
+    });
+    getById( _v ).style.borderBottomColor="#ffffff";
 }
 
 
