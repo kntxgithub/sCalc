@@ -12,25 +12,24 @@
 </head>
 <body>
     <div id=lcd class="lc">    <!--液晶部分-->
-        <div id="soundIcon" onclick="SoundOnOff(),sound('copybtn3')">
-            <svg id="iconSoundOn" width="18" height="14" viewBox="0 0 18 14">
-                <polygon points="0,4 0,10 3,10 7,13 7,1 3,4" fill="#111111"/>
-                <path d="M9,3 Q13,7 9,11" stroke="#111111" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                <path d="M11,1 Q17,7 11,13" stroke="#111111" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-            </svg>
-            <svg id="iconSoundOff" width="18" height="14" viewBox="0 0 18 14" style="display:none">
-                <polygon points="0,4 0,10 3,10 7,13 7,1 3,4" fill="#111111"/>
-                <line x1="10" y1="3" x2="16" y2="11" stroke="#111111" stroke-width="2" stroke-linecap="round"/>
-                <line x1="16" y1="3" x2="10" y2="11" stroke="#111111" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-        </div>
         <div class="infoLCHeader">
             <input id=t125 class="info tpsize" readonly value="φ12.5"/>
             <input id=t100 class="info tpsize" readonly value="φ10"/>
             <input id=t050 class="info tpsize" readonly value="φ5"/>
             <input id=tS15 class="info tpsize" readonly value="□15"/>
             <input id=tS10 class="info tpsize" readonly value="□10"/>
-            
+            <div id="soundIcon" onclick="SoundOnOff(),sound('copybtn3')">
+                <svg id="iconSoundOn" width="16" height="12" viewBox="0 0 18 14">
+                    <polygon points="0,4 0,10 3,10 7,13 7,1 3,4" fill="#111111"/>
+                    <path d="M9,3 Q13,7 9,11" stroke="#111111" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M11,1 Q17,7 11,13" stroke="#111111" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                </svg>
+                <svg id="iconSoundOff" width="16" height="12" viewBox="0 0 18 14" style="display:none">
+                    <polygon points="0,4 0,10 3,10 7,13 7,1 3,4" fill="#111111"/>
+                    <line x1="10" y1="3" x2="16" y2="11" stroke="#111111" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="16" y1="3" x2="10" y2="11" stroke="#111111" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
         </div>
         <div class ='infoLC'>
             <input id='info1000' class="info" readonly value="1000kN"/>
