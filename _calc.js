@@ -455,15 +455,19 @@ function loadCheckChild( _v ){//_v:荷重
             
             switch( g_weight){
                 case 100:
-                    g_weight = 500;
+                    g_weight = 250;
                     loadRangeChange( g_weight );
                     break;
                 case 250:
-                    g_weight = 1000;
+                    g_weight = 500;
                     loadRangeChange( g_weight );
                     break;
                 case 500:
-                    g_weight =100;
+                    g_weight = 1000;
+                    loadRangeChange( g_weight );
+                    break;
+                case 1000:
+                    g_weight = 100;
                     loadRangeChange( g_weight );
                     break;
             }
@@ -561,13 +565,7 @@ function copyToClipboard() {
         body += getById('load3').value + '　' + getById('strg3').value + '\n\n' + "平均値:" ;
         body += getById('average').value + 'N/㎟\n' ;
         // コピー対象のテキストを選択する
-        var ta = document.createElement("textarea");
-        ta.value = body;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        ta.parentElement.removeChild(ta);
-        alert("コピーしました",1);
+        navigator.clipboard.writeText(body).then(() => alert("コピーしました"));
 }
 
 //Func2ボタン

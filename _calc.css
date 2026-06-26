@@ -48,7 +48,7 @@ div.calcLC{
     box-sizing: border-box;
 }
 div.funcbtn{
-    margin:0 0 10 0;
+    margin:0 0 10px 0;
     padding:  0 0 0 0;
     justify-content:space-around;
     width: 100%;
@@ -60,7 +60,7 @@ div.funcbtn{
     flex-wrap:nowrap;
 }
 div.expe{
-    margin:10 0 5 0;
+    margin:10px 0 5px 0;
     padding:  0 0 0 0;
     justify-content:space-around;
     width: 100%;
@@ -89,7 +89,7 @@ button{
     height: 65px;
     margin-top: 5px;
     font-size:30px;
-    font-weight:none;
+    font-weight:normal;
     text-decoration:none;
     text-shadow:-1px -1px #555;
     text-align:center;
@@ -137,7 +137,7 @@ button.func{
     font-size: 16px;
     font-weight: bold;
     height: 30px;
-    margin: 0 2 3 2 ;
+    margin: 0 2px 3px 2px ;
     text-shadow:none;
         background-image:-webkit-gradient(
         linear,left top,left bottom,
@@ -219,7 +219,7 @@ input.info{
     vertical-align: top;
     display:-webkit-box;
     display:-ms-flexbox;
-    display:flexbox;
+    display:flex;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -240,7 +240,7 @@ input.expe{
     border-width:0px;
     display:-webkit-box;
     display:-ms-flexbox;
-    display:flexbox;
+    display:flex;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;

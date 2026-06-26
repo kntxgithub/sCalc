@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+<canvas id="c192" width="192" height="192"></canvas>
+<canvas id="c512" width="512" height="512"></canvas>
+<script>
+function draw(id, size) {
+  const c = document.getElementById(id);
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(0, 0, size, size);
+  const r = size * 0.12;
+  ctx.beginPath();
+  ctx.roundRect(size*0.06, size*0.06, size*0.88, size*0.88, r);
+  ctx.fillStyle = '#A6BD9F';
+  ctx.fill();
+  ctx.fillStyle = '#000000';
+  ctx.font = `bold ${size*0.38}px monospace`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('sC', size/2, size*0.38);
+  ctx.font = `bold ${size*0.18}px monospace`;
+  ctx.fillText('calc', size/2, size*0.72);
+  return c.toDataURL('image/png');
+}
+const d192 = draw('c192', 192);
+const d512 = draw('c512', 512);
+document.write('<br><a download="icon-192.png" href="'+d192+'">icon-192.pngをダウンロード</a>');
+document.write('<br><a download="icon-512.png" href="'+d512+'">icon-512.pngをダウンロード</a>');
+</script>
+</body>
+</html>
