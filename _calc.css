@@ -4,6 +4,7 @@ body{
     background-color: #000000;
 }
 div.lc{
+    position: relative;
     width: 98%;
     height: 22%;
     overflow: hidden;
@@ -270,6 +271,23 @@ input.info.bgblack{
     border: none;
     color:#A6BD9F;
     background-color: #111111;
+}
+#soundIcon{
+    position: absolute;
+    top: 4px;
+    right: 5px;
+    cursor: pointer;
+    opacity: 0.6;
+    line-height: 0;
+    padding: 2px;
+}
+#soundIcon:active{
+    opacity: 1;
+}
+input.Num.warn{
+    background-color: #1a1a1a;
+    color: #A6BD9F;
+    border-bottom-color: #A6BD9F;
 }
 input.debgger{
     background-color:#272727;

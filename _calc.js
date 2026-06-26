@@ -17,6 +17,7 @@ window.onload = function(){
     fS( g_focusInput );
     g_fg = 1;
     g_sound =1;
+    updateSoundIcon();
 }
 
 function sound( _v ){
@@ -193,10 +194,13 @@ function update( _v ){
     getById( 'strg3' ).value = _v;
     getById( 'average' ).value = _v;
 
+    setWarn('load1', false);
+    setWarn('load2', false);
+    setWarn('load3', false);
     if(g_focusInput != 'average'){
         var le = g_focusInput.length - 1;
         var tmp = g_focusInput.slice( 0 , le ) + 1;
-        g_focusInput = tmp;    
+        g_focusInput = tmp;
     }
     fS( g_focusInput );
 }
@@ -232,6 +236,10 @@ function ltos(){
     getById( 'strg1' ).value = calcF( l1 );
     getById( 'strg2' ).value = calcF( l2 );
     getById( 'strg3' ).value = calcF( l3 );
+    var th = g_weight * 0.2;
+    setWarn('load1', l1 !== '' && parseFloat(l1) < th);
+    setWarn('load2', l2 !== '' && parseFloat(l2) < th);
+    setWarn('load3', l3 !== '' && parseFloat(l3) < th);
 }
 //  強度　->　荷重
 function stol(){
@@ -239,9 +247,14 @@ function stol(){
     var s1 = getById( 'strg1' ).value;
     var s2 = getById( 'strg2' ).value;
     var s3 = getById( 'strg3' ).value;
-    getById( 'load1' ).value =  calcR( s1 );
-    getById( 'load2' ).value =  calcR( s2 );
-    getById( 'load3' ).value =  calcR( s3 );
+    var r1 = calcR(s1), r2 = calcR(s2), r3 = calcR(s3);
+    getById( 'load1' ).value = r1;
+    getById( 'load2' ).value = r2;
+    getById( 'load3' ).value = r3;
+    var th = g_weight * 0.2;
+    setWarn('load1', r1 !== '' && parseFloat(r1) < th);
+    setWarn('load2', r2 !== '' && parseFloat(r2) < th);
+    setWarn('load3', r3 !== '' && parseFloat(r3) < th);
 }
 
 
@@ -586,13 +599,53 @@ function copyToEmail(){
 //func3ボタン
 function SoundOnOff(){
     if( g_sound == 1 ){
-        g_sound =0;
-        /* document.getById('gmi').value='volume_off' */
+        g_sound = 0;
     }else{
-        g_sound++;
-        /* document.getById('gmi').value='volume_up' */
-
+        g_sound = 1;
     }
+    updateSoundIcon();
+}
+
+function updateSoundIcon(){
+    getById('iconSoundOn').style.display  = g_sound ? '' : 'none';
+    getById('iconSoundOff').style.display = g_sound ? 'none' : '';
+}
+
+//func4ボタン: CSV出力
+function csvExport(){
+    var entry = {
+        date:    getDateAndTime(),
+        load1:   getById('load1').value,
+        strg1:   getById('strg1').value,
+        load2:   getById('load2').value,
+        strg2:   getById('strg2').value,
+        load3:   getById('load3').value,
+        strg3:   getById('strg3').value,
+        average: getById('average').value
+    };
+    var history = JSON.parse(localStorage.getItem('sCalcHistory') || '[]');
+    history.push(entry);
+    localStorage.setItem('sCalcHistory', JSON.stringify(history));
+
+    var csv = '﻿日時,荷重1(kN),強度1(N/㎟),荷重2(kN),強度2(N/㎟),荷重3(kN),強度3(N/㎟),平均(N/㎟)\n';
+    history.forEach(function(e){
+        csv += e.date+','+e.load1+','+e.strg1+','+e.load2+','+e.strg2+','+e.load3+','+e.strg3+','+e.average+'\n';
+    });
+    var blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href   = url;
+    a.download = 'sCalc_'+entry.date.replace(/[/:]/g,'-')+'.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function setWarn(id, isWarn){
+    var el = getById(id);
+    if(isWarn){ el.classList.add('warn'); }
+    else       { el.classList.remove('warn'); }
 }
 
 //日付と時間を yyyy/mm/dd_HH:MM 書式で返す
