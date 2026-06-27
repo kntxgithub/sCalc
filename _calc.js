@@ -372,7 +372,7 @@ function setBBW( _v ){
     ['load1','load2','load3','strg1','strg2','strg3','average'].forEach(function(id){
         getById(id).style.borderBottomColor="#555555";
     });
-    getById( _v ).style.borderBottomColor="#ffffff";
+    getById( _v ).style.borderBottomColor="#111111";
 }
 
 
@@ -627,9 +627,12 @@ function csvExport(){
     history.push(entry);
     localStorage.setItem('sCalcHistory', JSON.stringify(history));
 
-    var csv = '﻿日時,荷重1(kN),強度1(N/㎟),荷重2(kN),強度2(N/㎟),荷重3(kN),強度3(N/㎟),平均(N/㎟)\n';
+    var csv = '﻿日時,荷重(kN),強度(N/㎟),平均(N/㎟)\n';
     history.forEach(function(e){
-        csv += e.date+','+e.load1+','+e.strg1+','+e.load2+','+e.strg2+','+e.load3+','+e.strg3+','+e.average+'\n';
+        csv += e.date + ',' + e.load1 + ',' + e.strg1 + ',\n';
+        csv += ','           + e.load2 + ',' + e.strg2 + ',' + e.average + '\n';
+        csv += ','           + e.load3 + ',' + e.strg3 + ',\n';
+        csv += ',,,\n';
     });
     var blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
     var url  = URL.createObjectURL(blob);
@@ -644,8 +647,7 @@ function csvExport(){
 
 function setWarn(id, isWarn){
     var el = getById(id);
-    el.style.backgroundColor = isWarn ? '#1a1a1a' : '';
-    el.style.color           = isWarn ? '#A6BD9F' : '';
+    el.style.backgroundColor = isWarn ? '#8A9E90' : '';
 }
 
 //日付と時間を yyyy/mm/dd_HH:MM 書式で返す
