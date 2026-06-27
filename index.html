@@ -96,6 +96,9 @@
         <button id='bnxt' onclick="focusMove( 'nxt' ),sound('bnxt')">▼</button>
         <button id='bfwd' onclick="focusMove( 'fwd' ),sound('bfwd')">▲</button>
     </div>
+    <div class="div funcbtn" ontouchstart="" id="installRow" style="display:none">
+        <button id='btnInstall' class="func" style="display:none;width:100%;" onclick="installApp()">📲 アプリをインストール</button>
+    </div>
     <div class="div histsection">
         <button id='btnHistClr' class="func" onclick="clearHistory(),sound('btnHistClr')">履歴消去</button>
         <div id="histList"></div>
@@ -116,8 +119,37 @@
     <script type="text/javascript" src="_calc.js" charset="utf-8"></script>
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js');
+            navigator.serviceWorker.register('./sw.js').then(function(reg){
+                console.log('SW registered, scope:', reg.scope);
+            }).catch(function(err){
+                console.log('SW registration failed:', err);
+            });
         }
+
+        var deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('btnInstall').style.display = 'inline-block';
+            document.getElementById('installRow').style.display = 'flex';
+        });
+
+        function installApp() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function(result) {
+                console.log('Install:', result.outcome);
+                deferredPrompt = null;
+                var btn = document.getElementById('btnInstall');
+                if (btn) btn.style.display = 'none';
+            });
+        }
+
+        window.addEventListener('appinstalled', function() {
+            if (typeof showToast === 'function') showToast('インストール完了しました');
+            var btn = document.getElementById('btnInstall');
+            if (btn) btn.style.display = 'none';
+        });
     </script>
 </body>
 </html>
