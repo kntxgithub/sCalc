@@ -1,8 +1,9 @@
-const CACHE = 'scalc-v12';
+const CACHE = 'scalc-v13';
 const FILES = [
-  './calc.html',
+  './index.html',
   './_calc.css',
   './_calc.js',
+  './manifest.json',
   './key01.mp3',
   './key02.mp3',
   './clear01.mp3',
@@ -12,7 +13,11 @@ const FILES = [
 ];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
+  e.waitUntil(
+    caches.open(CACHE).then(c =>
+      Promise.allSettled(FILES.map(f => c.add(f)))
+    )
+  );
   self.skipWaiting();
 });
 
