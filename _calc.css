@@ -277,7 +277,9 @@ input.Num.warn{
     border-bottom-color: #A6BD9F !important;
 }
 div.histsection{
-    margin-top: 28px;
+    margin-top: 0;
+    padding-top: 28px;
+    border-top: 1px solid #222;
     width: 100%;
 }
 #histList{
