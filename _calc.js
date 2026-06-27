@@ -638,23 +638,24 @@ function csvExport(){
     });
     var filename = 'sCalc_'+entry.date.replace(/[/:]/g,'-')+'.csv';
     var blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href   = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+    showToast('CSV出力完了 (' + history.length + '件)');
+}
 
-    if (navigator.share && navigator.canShare && navigator.canShare({files:[new File([blob], filename)]})) {
-        navigator.share({ files: [new File([blob], filename, {type:'text/csv'})] });
-    } else {
-        var url = URL.createObjectURL(blob);
-        var a   = document.createElement('a');
-        a.href  = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
-    }
-    alert(entry.date + '\nレンジ: ' + entry.range + '  供試体: ' + entry.tpsize +
-          '\n荷重: ' + entry.load1 + ' / ' + entry.load2 + ' / ' + entry.load3 +
-          '\n強度: ' + entry.strg1 + ' / ' + entry.strg2 + ' / ' + entry.strg3 +
-          '\n平均: ' + entry.average + ' N/㎟\n\n(' + history.length + '件保存済)');
+function showToast(msg){
+    var t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#A6BD9F;font-family:monospace;font-size:13px;padding:8px 16px;border-radius:4px;opacity:1;transition:opacity 0.5s;z-index:999;white-space:nowrap;';
+    document.body.appendChild(t);
+    setTimeout(function(){ t.style.opacity='0'; }, 1500);
+    setTimeout(function(){ document.body.removeChild(t); }, 2100);
 }
 
 function setWarn(id, isWarn){
