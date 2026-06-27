@@ -607,8 +607,8 @@ function SoundOnOff(){
 }
 
 function updateSoundIcon(){
-    getById('iconSoundOn').style.display  = g_sound ? '' : 'none';
-    getById('iconSoundOff').style.display = g_sound ? 'none' : '';
+    document.getElementById('spkOn').setAttribute('display',  g_sound ? '' : 'none');
+    document.getElementById('spkOff').setAttribute('display', g_sound ? 'none' : '');
 }
 
 //func4ボタン: CSV出力
@@ -644,8 +644,8 @@ function csvExport(){
 
 function setWarn(id, isWarn){
     var el = getById(id);
-    if(isWarn){ el.classList.add('warn'); }
-    else       { el.classList.remove('warn'); }
+    el.style.backgroundColor = isWarn ? '#1a1a1a' : '';
+    el.style.color           = isWarn ? '#A6BD9F' : '';
 }
 
 //日付と時間を yyyy/mm/dd_HH:MM 書式で返す
