@@ -1,4 +1,4 @@
-const CACHE = 'scalc-v10';
+const CACHE = 'scalc-v11';
 const FILES = [
   './calc.html',
   './_calc.css',
