@@ -288,6 +288,28 @@ input.Num.warn{
     color: #A6BD9F !important;
     border-bottom-color: #A6BD9F !important;
 }
+div.histsection{
+    margin-top: 8px;
+    width: 100%;
+}
+#histList{
+    width: 100%;
+    margin-top: 4px;
+}
+.histItem{
+    display: flex;
+    justify-content: space-between;
+    font-family: monospace;
+    font-size: 13px;
+    color: #666;
+    padding: 5px 4px;
+    border-bottom: 1px solid #222;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.histItem:active{
+    background-color: #1a1a1a;
+}
 input.debgger{
     background-color:#272727;
     color:#00ec4796 ;

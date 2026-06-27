@@ -18,6 +18,7 @@ window.onload = function(){
     g_fg = 1;
     g_sound =1;
     updateSoundIcon();
+    renderHistory();
 }
 
 function sound( _v ){
@@ -185,6 +186,10 @@ function calcTypeChange( _v ){
 //  クリア処理
 //  2020/05/06
 function update( _v ){
+
+    if( _v === '' && getById('load1').value !== '' ){
+        saveToHistory();
+    }
 
     getById( 'load1' ).value = _v;
     getById( 'load2' ).value = _v;
@@ -613,6 +618,32 @@ function updateSoundIcon(){
 
 //func4ボタン: CSV出力
 function csvExport(){
+    var history = JSON.parse(localStorage.getItem('sCalcHistory') || '[]');
+    if( history.length === 0 ){
+        showToast('記録がありません');
+        return;
+    }
+    var csv = '﻿日時,荷重(kN),強度(N/㎟),平均(N/㎟)\n';
+    history.forEach(function(e){
+        csv += e.date              + ',' + e.load1 + ',' + e.strg1 + ',\n';
+        csv += (e.range  || '')   + ',' + e.load2 + ',' + e.strg2 + ',' + e.average + '\n';
+        csv += (e.tpsize || '')   + ',' + e.load3 + ',' + e.strg3 + ',\n';
+        csv += ',,,\n';
+    });
+    var filename = 'sCalc_'+getDateAndTime().replace(/[/:]/g,'-')+'.csv';
+    var blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href   = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+    showToast('CSV出力完了 (' + history.length + '件記録)');
+}
+
+function saveToHistory(){
     var entry = {
         date:    getDateAndTime(),
         range:   getById('btnRange').innerText,
@@ -627,26 +658,45 @@ function csvExport(){
     };
     var history = JSON.parse(localStorage.getItem('sCalcHistory') || '[]');
     history.push(entry);
+    if( history.length > 20 ){ history.shift(); }
     localStorage.setItem('sCalcHistory', JSON.stringify(history));
+    renderHistory();
+    showToast('記録しました (' + history.length + '件)');
+}
 
-    var csv = '﻿日時,荷重(kN),強度(N/㎟),平均(N/㎟)\n';
-    history.forEach(function(e){
-        csv += e.date              + ',' + e.load1 + ',' + e.strg1 + ',\n';
-        csv += (e.range  || '')   + ',' + e.load2 + ',' + e.strg2 + ',' + e.average + '\n';
-        csv += (e.tpsize || '')   + ',' + e.load3 + ',' + e.strg3 + ',\n';
-        csv += ',,,\n';
-    });
-    var filename = 'sCalc_'+entry.date.replace(/[/:]/g,'-')+'.csv';
-    var blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
-    var url  = URL.createObjectURL(blob);
-    var a    = document.createElement('a');
-    a.href   = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
-    showToast('CSV出力完了 (' + history.length + '件)');
+function renderHistory(){
+    var history = JSON.parse(localStorage.getItem('sCalcHistory') || '[]');
+    var el = getById('histList');
+    el.innerHTML = '';
+    for( var i = history.length - 1; i >= 0; i-- ){
+        var e = history[i];
+        var item = document.createElement('div');
+        item.className = 'histItem';
+        var timeStr = e.date ? e.date.split('_')[1] || e.date : '';
+        item.innerHTML =
+            '<span>' + timeStr + '</span>' +
+            '<span>' + (e.tpsize || '') + '</span>' +
+            '<span>' + (e.average || '') + ' N/㎟</span>';
+        (function(entry){ item.onclick = function(){ recallHistory(entry); }; })(e);
+        el.appendChild(item);
+    }
+}
+
+function recallHistory(e){
+    getById('load1').value   = e.load1;
+    getById('load2').value   = e.load2;
+    getById('load3').value   = e.load3;
+    getById('strg1').value   = e.strg1;
+    getById('strg2').value   = e.strg2;
+    getById('strg3').value   = e.strg3;
+    getById('average').value = e.average;
+    showToast(e.date + ' を呼び出しました');
+}
+
+function clearHistory(){
+    localStorage.removeItem('sCalcHistory');
+    renderHistory();
+    showToast('履歴を消去しました');
 }
 
 function showToast(msg){
