@@ -615,6 +615,8 @@ function updateSoundIcon(){
 function csvExport(){
     var entry = {
         date:    getDateAndTime(),
+        range:   getById('btnRange').innerText,
+        tpsize:  getById('btnTpSize').innerText,
         load1:   getById('load1').value,
         strg1:   getById('strg1').value,
         load2:   getById('load2').value,
@@ -629,9 +631,9 @@ function csvExport(){
 
     var csv = '﻿日時,荷重(kN),強度(N/㎟),平均(N/㎟)\n';
     history.forEach(function(e){
-        csv += e.date + ',' + e.load1 + ',' + e.strg1 + ',\n';
-        csv += ','           + e.load2 + ',' + e.strg2 + ',' + e.average + '\n';
-        csv += ','           + e.load3 + ',' + e.strg3 + ',\n';
+        csv += e.date              + ',' + e.load1 + ',' + e.strg1 + ',\n';
+        csv += (e.range  || '')   + ',' + e.load2 + ',' + e.strg2 + ',' + e.average + '\n';
+        csv += (e.tpsize || '')   + ',' + e.load3 + ',' + e.strg3 + ',\n';
         csv += ',,,\n';
     });
     var blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
